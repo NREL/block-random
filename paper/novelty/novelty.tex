@@ -1,0 +1,51 @@
+\documentclass[12pt]{article}
+
+%=================================================================================
+% Document information
+\def\firstname{Prakash}
+\def\familyname{Mohan}
+\def\FileAuthor{\firstname~\familyname}
+\def\FileTitle{Novelty and Significance}
+\def\FileSubject{Novelty and Significance}
+\def\FileKeyWords{\firstname~\familyname, \FileSubject, \FileTitle}
+
+%% %=================================================================================
+%% % PACKAGES
+\usepackage{fullpage}
+
+
+\title{\FileTitle{}}
+\date{\today}
+\author{\FileAuthor, Marc T. Henry de Frahan, Ryan King, Ray W. Grout}
+
+%=================================================================================
+%=================================================================================
+\begin{document}
+
+\maketitle
+Novelties of the present work:
+\begin{itemize}
+    \item [-] We present block-random gradient descent, a new algorithm that
+        works on distributed, heterogeneous data without having to pre-shuffle;
+        a step that is formally required for Stochastic Gradient Descent (SGD)
+        algorithm to converge
+    \item[-] We show with a variety of benchmark problems that the SGD
+        algorithm can still make useful progress if the batches are defined on
+        a per-processor basis and processed in random order.
+    \item[-] We demonstrate our algorithm in a challenge large scale physics
+        simulation problem of constructing subgrid stress models for large eddy
+        simulations and compare it to standard approaches.
+\end{itemize}
+
+Significance of the present work:
+\begin{itemize}
+\item[-] This work develops a new algorithm for effectively training deep
+    neural networks in the context of distributed, heterogeneous data.
+\item[-] The presented algorithm will be particularly useful for in situ
+    training on exascale simulations to derive reduced order models from
+    high-fidelity data.
+\end{itemize}
+
+
+
+\end{document}

@@ -1,0 +1,107 @@
+#+STARTUP: content
+
+* Kickoff meeting (24/07/18)
+** Logistics
+- laptop software, slack, etc
+- peregrine and tanager
+** NREL training
+** Overview of summer
+*** Learn about deep learning
+- Coursera deeplearning.ai class (can we get access for him?), work through notebooks (https://github.com/Kulbear/deep-learning-coursera)
+- http://deeplearning.stanford.edu/tutorial
+- https://matrices.io/deep-neural-network-from-scratch/
+- http://www.3blue1brown.com/videos/2017/10/9/neural-network
+*** DL intro exercise
+- *objective*: Learn how to design and train a neural network on relevant data
+- *outcome*: Several NN models
+- Data is from combustion simulation of a flame (predict SRC_PV given Z, Zvar, C, Cvar, SDR, PDR)
+- Preprocess the data (scale the data (e.g. scikit robust scaler (http://scikit-learn.org/stable/auto_examples/preprocessing/plot_all_scaling.html)), train/dev/test data sets)
+- Use scikit-learn to implement a quick linear regression model
+- Write (from scratch!) a simple linear regression model using a DNN framework
+- Switch to a DL framework such as PyTorch or Keras and implement the same thing
+- Add complexity (increase nodes and increase layer) and quantify effect on training and validation loss
+- Try different optimizers: SGD (with or without momentum), Adam
+*** Literature review of SGS modeling with neural networks/ML
+- *objective*: Learn about strategies for SGS modeling with ML with a focus on NN
+- *outcome*: brief write-up (e.g. list format) of citations with problems tackled, methods, difficulties, etc.
+- read Ryan King's papers/thesis
+- look at "A neural network approach for the blind deconvolution of turbulent flow" Maulik and San (JFM 2017) and references therein
+- I have a paragraph with a brief survey I can provide
+- other?
+*** Literature review of neural networks at scale
+- *objective*: how do people train/run/design NN at large scales (i.e. those relevant to exascale)
+- *outcome*: brief write-up (e.g. list format) of citations and descriptions
+- What is CASTLE (exascale project) doing?
+- Keywords: neural network in parallel, distributed neural networks, etc
+*** Super-resolution exercise
+- *objective*: use convolutional NN and GAN to perform super-resolution of underresolved flows
+- *outcome*: an SGS model that uses CNN/GAN
+- Start with sliced HIT data
+- Filter the slices
+- Perform super-resolution (technique is up in the air, but I have one that would probably work out of the box)
+- Can it be used for SGS modeling?
+*** Distributed NN
+- specifics will depend on literature review
+** Next
+- NREL training
+- learning about DL
+- DL intro exercise
+
+* Another kickoff meeting (30/07/18)
+** Progress
+- finished first class on coursera
+- started implementing DNN for intro exercise
+- struggling to get full access to Coursera (Mo is working on that)
+** Meeting
+- Ryan suggested some papers
+- discussed algorithmic approach to DL
+- discussed other skills that might be worth learning (JIRA, unit test framework)
+** Next
+- keep working on intro exercise
+- do litt reviews
+- set up JIRA tasks
+- unittest framework to use for this work, e.g. Google Test framework
+
+* 07/08/18
+** Progress
+- hand DNN works well
+- started Keras implementation to play with optimizers
+- read papers: data parallelism vs model parellelism vs hybrid (mix of both)
+** Meeting
+- our models are probably moderate in size
+- we probably want to do data parallelism
+- our data is distributed and heterogeneous and we can't randomize it
+- this implies problems for optimizer convergence
+- maybe start with JHU channel flow data and see what happens to convergence if you can or cannot randomize the training data
+- input to training: filtered velocities (pointwise and stencil), maybe y+.
+- predict tau_sgs (6 components)
+- restore stochasticity:
+  - all nodes train a network and then randomly swap networks and then maybe the networks converge
+  - one node trains a network and gets data from random subset of nodes
+- maybe eventually do a convolutional network and we can play with the size of the "random" patches used to train
+** Next
+- research non-random order of heterogeneous training data
+- how to train a DNN with data that you cannot randomize (the decomposition is imposed on you) at scale
+- maybe try on MNIST CNN and not do the shuffle (do a sort instead)
+** Post meeting ideas
+- Handling difference in data availability due to meshing, etc. (e.g. wall vs center of channel at different resolutions)
+- Different models for different regions of the flow (might be an approach to deal with specific data distribution)
+- Effects of data heterogeneity on different types of neural networks
+* 01/10/18
+- discussed RK's paper and decided to incorporate similar metric in the study
+- discussed normalizing the input data for the DNN prediction of tau_ij
+
+* 10/10/18
+** Next steps
+- sorted and batch-random on the channel data with current best DNN
+- correlations as a function of y
+- slices of channel flow with true/DNN(shuffled-sorted-batchrandom)/wall SGS predictions
+- evaluate cost of communication shuffling vs batch-random
+- write-up
+- going further:
+  - Prakash has another idea: get same batch sizes from all the nodes to your ML node and then shuffle there (e.g. get 128 points per node and then shuffle on the ML node)
+  - Pytorch has c++ API so integrating to Pele should be "easy"
+  - better DNN for the channel
+  - DNN for polynomials
+  - Relative error loss functions: WAPE/WMAPE and MAPE
+  - Shashank has an idea on how training data sampling should be done.

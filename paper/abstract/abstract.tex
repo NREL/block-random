@@ -1,0 +1,51 @@
+\documentclass[1p]{elsarticle}
+\begin{document}
+
+\begin{frontmatter}
+\title{A Batch-Random Algorithm for Learning on Distributed, Heterogeneous Data}
+\author[ut]{Prakash Mohan}
+\ead{prak@utexas.edu}
+\author[nrel]{Marc T. Henry de Frahan}
+\ead{Marc.HenrydeFrahan@nrel.gov}
+\author[nrel]{Ryan King}
+\ead{Ryan.King@nrel.gov}
+\author[nrel]{Ray Grout}
+\ead{Ray.Grout@nrel.gov}
+\address[ut]{Institute for Computational Engineering and Sciences, The University of Texas at Austin, 201 E. 24th Street, POB 4.102, Austin, Texas 78712, USA}
+\address[nrel]{Computational Science Center, National Renewable Energy Laboratory, 15013 Denver W Pkwy, ESIF301, Golden, CO 80401, USA}
+% \address[nrel_hpacf]{High Performance Algorithms and Complex Fluids, Computational Science Center, National Renewable Energy Laboratory, 15013 Denver W Pkwy, ESIF301, Golden, CO 80401, USA}
+% \address[nrel_cssog]{Complex Systems Simulation and Optimization Group, Computational Science Center, National Renewable Energy Laboratory, 15013 Denver W Pkwy, ESIF301, Golden, CO 80401, USA}
+
+\journal{Journal of Computational Science}
+\begin{abstract}
+Simulating complex physics problems is computationally expensive, requiring
+millions of core hours to compute a single realization. Combining
+direct numerical simulations with an optimization or design cycle is infeasible, creating a need for reduced order models. Deep learning models are an increasingly popular technique, where
+data from a selection of high fidelity simulations are used for model development. Most deep learning models use artificial neural networks with
+multiple layers to capture non-linearities. The parameters defining
+these layers are ``learned'' from data,
+typically using algorithms that approximate gradient descent. With the increase
+in the amount of available data, deterministic learning algorithms
+are often expensive and rarely used in practice. Stochastic gradient descent
+and variants using mini-batches are commonly used
+algorithms for practical learning problems. These algorithms rely on
+data being shuffled randomly to avoid bias across the batches during optimization.
+
+The advent of exascale computing will drive the need to change
+existing approaches for training deep learning models because it will
+be increasingly difficult to save the large amounts of data generated
+during the simulations for offline training. Online or ``in-situ''
+training, where the model is trained during the simulation to avoid
+data storage, has the potential to
+alleviate this problem. However, because fully shuffling the data will be infeasible for exascale simulations, the data shuffling strategy necessary for
+stochastic gradient descent will need to adapt to ensure the
+adequate representation of the vastly differing physical processes
+occurring in the simulation domain. In this work, we show examples
+where existing algorithms fail without the appropriate shuffling, and
+present a new algorithm that works on distributed, biased data without
+having to pre-shuffle. Results from a suite of benchmark problems are
+shown, including computational fluid dynamics simulations relevant to
+``in-situ'' training in the context of exascale computing.
+\end{abstract}
+\end{frontmatter}
+\end{document}

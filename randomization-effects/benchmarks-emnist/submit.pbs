@@ -1,0 +1,15 @@
+#!/bin/bash
+
+#PBS -l walltime=48:00:00  # WALLTIME limit
+#PBS -q batch-h  # queue
+#PBS -l nodes=1:ppn=24  # Number of nodes, put x processes on each
+#PBS -N batch-norm  # Name of job
+#PBS -A exact  # Project handle
+#PBS -m ae  # Email at start/end of job
+#PBS -j oe  # Combine output and error file
+#PBS -M marc.henrydefrahan@nrel.gov
+echo $PBS_O_WORKDIR
+cd $PBS_O_WORKDIR
+
+# Run the code
+pipenv run python classification-tests.py -d "${dataset}"
